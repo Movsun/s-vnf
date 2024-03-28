@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    Int     @default(autoincrement()) @id
+  email String  @unique
+  name  String?
+}
+
+
+model Domain {
+  id    Int @default(autoincrement()) @id
+  name  String @unique
+  url   String
+  nss   NS[]
+  is_self Boolean @default(false)
+}
+
+model Deployment {
+  id    Int @default(autoincrement()) @id
+  nss   NS[]
+}
+
+model NS {
+  id    Int @default(autoincrement()) @id
+  nsId  String
+  vduCount Int @default(1)
+  deployment Deployment? @relation(fields: [deploymentId], references: [id], onDelete: Cascade)
+  deploymentId Int?
+  domain Domain? @relation(fields: [domainId], references: [id], onDelete: Cascade)
+  domainId Int?
+}
+
+model VDU {
+  id    Int @default(autoincrement()) @id
+  vdu_index Int?
+  // status? or satus inside ns instead?
+  // let main sidecar send request to check if ns is ready or if action is ready, instead of relying on other sidecar's callback
+  // this way it seem less complicated, 
+}
+
+model ManoCredential {
+  id Int @default(autoincrement()) @id
+  url String
+  username String
+  password String
+}
+
+model DeploymentV2 {
+  uuid String @unique @id
+  // nss is json array of [{nsId, vduCound, domainName}]
+  nss String?
+}
