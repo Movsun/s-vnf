@@ -6,15 +6,6 @@ Welcome to S-VNF!
 
 Sidecar VNF (S-VNF) is a deployable cross-cloud VNF coordinators for multi-domain VNF orchestration and management.
 
-## Getting Started (Work in Progress)
-
-To start S-VNF on local development, follow these instructions:
-
-1. Clone the repository.
-2. Install dependencies.
-3. Initialize the Database.
-4. Run the application.
-
 ## Building S-VNF as OpenStack Image
 
 This guide details building an OpenStack image containing the S-VNF for deployment purposes.
@@ -89,9 +80,11 @@ This guide details building an OpenStack image containing the S-VNF for deployme
    
      ```bash
      pm2 startup systemd
-     # Copy and run the displayed command to enable the service on startup.
      ```
-   
+   - Copy and run the displayed command to enable the service on startup.
+     ```bash
+     #sudo env PATH=$PATH:/home/ubuntu/.nvm/versions/node/v20.12.0/bin /home/ubuntu/.nvm/versions/node/v20.12.0/lib/node_modules/pm2/bin/pm2 startup systemd -u ubuntu --hp /home/ubuntu
+     ```
    - Save the current PM2 configuration:
    
      ```bash
