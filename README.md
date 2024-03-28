@@ -95,4 +95,52 @@ This guide details building an OpenStack image containing the S-VNF for deployme
 
 * After this process, create a snapshot of the VM. This snapshot can then be used as the S-VNF image for deployment.
 
+## To deploy the S-VNF (Work in Progress)
+
+### OpenStack VIM Prerequisite for Enabling Cross-Cluster VNF Communication
+
+**To facilitate connections between VNFs across different clusters, we'll be assigning OpenStack Floating IPs to them. This involves configuring OSM to allocate Floating IPs during VNF deployment.**
+
+**Steps:**
+
+1. **Add OpenStack VIM with Floating IP Configuration:**
+
+   - Execute the following command, carefully replacing placeholders with your actual values:
+
+     ```bash
+     osm vim-create --name <vim-name> --user admin --password <VIM-password> --auth_url <VIM-URL> --tenant <Tenant-name> --account_type openstack --config='{use_floating_ip: "<Floating_IP_UUID>"}'
+     ```
+
+     - `<vim-name>`: Desired name for the VIM within OSM.
+     - `<VIM-password>`: Password for accessing the OpenStack VIM.
+     - `<VIM-URL>`: Authentication URL for your OpenStack VIM.
+     - `<Tenant-name>`: Name of the tenant within the OpenStack VIM.
+     - `<Floating_IP_UUID>`: UUID of the specific Floating IP network you want to associate with VNFs.
+
+**Key Points:**
+
+- This configuration ensures OSM assigns a Floating IP from the specified network to each VNF during its creation.
+
+**Additional Information:**
+
+* https://osm.etsi.org/docs/user-guide/latest/04-vim-setup.html
+* https://docs.openstack.org/project-deploy-guide/charm-deployment-guide/train/config-openstack.html
+
+***Adding S-VNF Package to OSM**
+
+- Copied the examples VNFD into OSM
+  
+- Extract, and modify Image Name in S-VNFD YAML File to change S-VNF image name, External Network Name, etc. 
+
+- Upload VNF and NS Package via command line via OSM-CLI or OSM WEB UI to upload: Use the `osm vnfpkg-create` command to upload the VNF package from your local system to the OSM catalog.
+
+```
+sm vnfpkg-create examples/s-vnf-vnf.tar.gz
+```
+
+```
+osm nspkg-create examples/s-vnf-ns.tar.gz
+```
+### Deploying S-VNF (Work in Progress)
+
 ## To deploy the provided example VNFD with S-VNF (Work in Progress)
