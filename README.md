@@ -95,7 +95,7 @@ This guide details building an OpenStack image containing the S-VNF for deployme
 
 * After this process, create a snapshot of the VM. This snapshot can then be used as the S-VNF image for deployment.
 
-## To deploy the S-VNF (Work in Progress)
+## To deploy the S-VNF
 
 ### OpenStack VIM Prerequisite for Enabling Cross-Cluster VNF Communication
 
@@ -116,6 +116,7 @@ This guide details building an OpenStack image containing the S-VNF for deployme
      - `<VIM-URL>`: Authentication URL for your OpenStack VIM.
      - `<Tenant-name>`: Name of the tenant within the OpenStack VIM.
      - `<Floating_IP_UUID>`: UUID of the specific Floating IP network you want to associate with VNFs.
+2. **Ensure that OSM has access to the network where the S-VNF is deployed.**
 
 **Key Points:**
 
@@ -135,12 +136,29 @@ This guide details building an OpenStack image containing the S-VNF for deployme
 - Upload VNF and NS Package via command line via OSM-CLI or OSM WEB UI to upload: Use the `osm vnfpkg-create` command to upload the VNF package from your local system to the OSM catalog.
 
 ```
-sm vnfpkg-create examples/s-vnf-vnf.tar.gz
+osm vnfpkg-create examples/s-vnf-vnf.tar.gz
 ```
 
 ```
 osm nspkg-create examples/s-vnf-ns.tar.gz
 ```
-### Deploying S-VNF (Work in Progress)
+### MANO Configuration for S-VNF
 
-## To deploy the provided example VNFD with S-VNF (Work in Progress)
+There are two primary methods for setting MANO credential in S-VNF:
+
+1. Pre-deployment Configuration (VNFD YAML):
+
+    Include the MANO configuration directly within the S-VNF Descriptor YAML file.
+
+2. Post-deployment Configuration (VNF Primitive Function):
+
+    Configure MANO after S-VNF deployment using the VNF primitive function in the OSM UI.
+
+### S-VNF Network Join
+
+Similar to MANO configuration, you can define the S-VNF network join either with VNFD or by exeucting the VNF primitive.
+
+## To deploy the example of a Web Server with Load Balancer using S-VNF.
+1. Upload the WebServer and LoadBalancer from the examples directories into OSM.
+2. Access the deployed S-VNF UI by navigating to <s-vnf-ip>:8000/home 
+3. Click on "Create Deployment" and choose the NS for deployment.
